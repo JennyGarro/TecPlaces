@@ -561,7 +561,7 @@ public class VentanaDestinos extends javax.swing.JFrame {
                         ArrayList<NodeList> allNodes=new ArrayList<>();
                         allNodes.add(nodeDescription);
                         
-                        System.out.print("Tamaño"+allNodes.size());
+                        System.out.print("Tamaño nodo"+allNodes.size());
                         int largo1 = nodeDescription.getLength();
                         System.out.print(largo1);
                         
