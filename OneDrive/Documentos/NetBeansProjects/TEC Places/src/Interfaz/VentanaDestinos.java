@@ -17,6 +17,26 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import maps.java.*;
+import com.mxrck.autocompleter.TextAutoCompleter;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import java.awt.Image;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import tec.places.MapasCR;
+
 /**
  *
  * @author nenis
@@ -26,6 +46,11 @@ public class VentanaDestinos extends javax.swing.JFrame {
     PruebaBD4O BD=new PruebaBD4O();
     
     DefaultTableModel modelo = new DefaultTableModel();
+    
+    
+    
+    
+    
     
     
     
@@ -46,23 +71,14 @@ public class VentanaDestinos extends javax.swing.JFrame {
         modelo.addColumn("Longitud");
         modelo.addColumn("Desplazamiento");
         TablaDestino.setModel(modelo);
+        
+        
+        
         ConsultarTabla();
         
-//        ObjectSet resultado=BD.Consultar();
-//		while(resultado.hasNext()) {
-//                    String Dato[] = new String [5];
-//                    Destino Objeto = (Destino) resultado.next();
-//                    
-//                    Dato[0] = Objeto.getID();
-//                    Dato[1] = Objeto.getDirecExacta();
-//                    Dato[2] = Objeto.getLatitud();
-//                    Dato[3] = Objeto.getLongitud();
-//                    Dato[4] = Objeto.getDesplazamiento();
-//                    modelo.addRow(Dato);
-                    //System.out.println(Objeto.getID());
-                    //System.out.println(resultado.next().toString());
-		//}
-//        
+        
+        
+        
     }
     
     private void ConsultarTabla(){
@@ -127,6 +143,7 @@ public class VentanaDestinos extends javax.swing.JFrame {
         LbLongi = new javax.swing.JLabel();
         LbLati = new javax.swing.JLabel();
         LbDirExac = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -154,6 +171,12 @@ public class VentanaDestinos extends javax.swing.JFrame {
         });
         getContentPane().add(BtnConvertirCoorde);
         BtnConvertirCoorde.setBounds(560, 160, 160, 23);
+
+        TxtDireccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtDireccionActionPerformed(evt);
+            }
+        });
         getContentPane().add(TxtDireccion);
         TxtDireccion.setBounds(200, 100, 330, 30);
 
@@ -340,6 +363,15 @@ public class VentanaDestinos extends javax.swing.JFrame {
         getContentPane().add(LbDirExac);
         LbDirExac.setBounds(170, 350, 270, 30);
 
+        jButton1.setText("Autocompletado+");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(560, 60, 120, 23);
+
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\nenis\\Desktop\\7o1B528.jpg")); // NOI18N
         getContentPane().add(jLabel1);
         jLabel1.setBounds(0, -20, 1400, 610);
@@ -473,6 +505,90 @@ public class VentanaDestinos extends javax.swing.JFrame {
              JOptionPane.showMessageDialog(null, "Debe seleccionar un destino");         
          }
     }//GEN-LAST:event_BtnEliminarDesActionPerformed
+    
+    
+    
+    private void TxtDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtDireccionActionPerformed
+        
+           
+        
+    }//GEN-LAST:event_TxtDireccionActionPerformed
+
+    private String[] getDertalles(ArrayList<NodeList> lista, int lar){
+        
+        
+        TextAutoCompleter textAutoCompleter = new TextAutoCompleter( TxtDireccion );
+        textAutoCompleter.setMode(0); // infijo          
+        
+        String resultado[]=new String[lar];
+
+        int lar1 = lar+1;
+        for(int i=0;i<lar1;i++){
+            //try{
+                resultado[i]=lista.get(0).item(i).getTextContent();
+                System.out.print(resultado[i]+"\n");
+                textAutoCompleter.addItem(resultado[i]);
+         
+            
+        }
+        return null;
+    }
+     
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        try {
+            
+            
+            
+            String dire1 = TxtDireccion.getText();
+            String dire2 = dire1.replace(" ","_");
+            URL url=new URL("https://maps.googleapis.com/maps/api/place/autocomplete/xml?input="+dire2+"&key=AIzaSyBmO8KipkXfczJix4PxiXE63fV4L35FtMk");
+                    
+                    
+                    try {
+                        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                        DocumentBuilder builder = factory.newDocumentBuilder();
+                        Document document = builder.parse(url.openStream());
+                        
+                        XPathFactory xpathFactory = XPathFactory.newInstance();
+                        XPath xpath = xpathFactory.newXPath();
+                        
+                        NodeList nodeDescription = (NodeList) xpath.evaluate("AutocompletionResponse/prediction/description",
+                                document, XPathConstants.NODESET);
+                        
+                        
+                        ArrayList<NodeList> allNodes=new ArrayList<>();
+                        allNodes.add(nodeDescription);
+                        
+                        System.out.print("Tamaño"+allNodes.size());
+                        int largo1 = nodeDescription.getLength();
+                        System.out.print(largo1);
+                        
+                        
+                        String[] resultado=this.getDertalles(allNodes,largo1);
+                        
+
+                        
+                    } catch (Exception e) {
+
+                        return ;
+                    }
+                    
+                    
+                   
+                    
+                    
+                    
+                    
+                    
+                    
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VentanaDestinos.class.getName()).log(Level.SEVERE, null,ex);
+        }
+
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -536,6 +652,7 @@ public class VentanaDestinos extends javax.swing.JFrame {
     private javax.swing.JLabel LbVisita;
     private javax.swing.JTable TablaDestino;
     private javax.swing.JTextField TxtDireccion;
+    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
