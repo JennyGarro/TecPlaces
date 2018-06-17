@@ -143,7 +143,7 @@ public class VentanaDestinos extends javax.swing.JFrame {
         LbLongi = new javax.swing.JLabel();
         LbLati = new javax.swing.JLabel();
         LbDirExac = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        BtnAutocompletar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -363,14 +363,14 @@ public class VentanaDestinos extends javax.swing.JFrame {
         getContentPane().add(LbDirExac);
         LbDirExac.setBounds(170, 350, 270, 30);
 
-        jButton1.setText("Autocompletado+");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BtnAutocompletar.setText("Autocompletado+");
+        BtnAutocompletar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BtnAutocompletarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(560, 60, 120, 23);
+        getContentPane().add(BtnAutocompletar);
+        BtnAutocompletar.setBounds(560, 60, 120, 23);
 
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\nenis\\Desktop\\7o1B528.jpg")); // NOI18N
         getContentPane().add(jLabel1);
@@ -535,7 +535,7 @@ public class VentanaDestinos extends javax.swing.JFrame {
     }
      
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void BtnAutocompletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAutocompletarActionPerformed
         
         try {
             
@@ -588,7 +588,7 @@ public class VentanaDestinos extends javax.swing.JFrame {
         }
 
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_BtnAutocompletarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -627,6 +627,7 @@ public class VentanaDestinos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAtras;
+    private javax.swing.JButton BtnAutocompletar;
     private javax.swing.JButton BtnConvertirCoorde;
     private javax.swing.JButton BtnConvertirDirec;
     private javax.swing.JButton BtnEliminarDes;
@@ -652,7 +653,6 @@ public class VentanaDestinos extends javax.swing.JFrame {
     private javax.swing.JLabel LbVisita;
     private javax.swing.JTable TablaDestino;
     private javax.swing.JTextField TxtDireccion;
-    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
